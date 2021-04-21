@@ -79,7 +79,6 @@ app.get('/', async (req, res, next) => {
 
 app.patch('/:userId', async (req, res, next) => {
   try {
-
     const {
       body,
       params: { userId }
@@ -90,6 +89,22 @@ app.patch('/:userId', async (req, res, next) => {
     })
 
     res.send(updatedUser)
+  } catch (error) {
+    next(error)
+  }
+})
+
+app.delete('/:userId', async (req, res, next) => {
+  try {
+    const {
+      params: { userId }
+    } = req
+
+    const deletedUser = await User.findOneAndDelete({ _id: userId })
+    if (deletedUser) {
+      return res.send(deletedUser)
+    }
+    res.status(404)
   } catch (error) {
     next(error)
   }
