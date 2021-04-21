@@ -22,6 +22,15 @@ mongoose.connect(
   }
 )
 
+const authorSchema = new Schema({
+  name: String
+})
+
+const bookSchema = new Schema({
+  name: String,
+  author: { type: Schema.Types.ObjectId, ref: 'authors' }
+})
+
 const userSchema = new Schema({
   firstName: {
     type: String,
@@ -53,10 +62,27 @@ const userSchema = new Schema({
 })
 
 const User = mongoose.model('users', userSchema)
+const Book = mongoose.model('books', bookSchema)
+const Author = mongoose.model('authors', authorSchema)
 
 const app = express()
 
 app.use(express.json())
+
+app.get('/populate', async (req, res, next) => {
+  try {
+    Book.find()
+      .populate('author')
+      .exec((err, books) => {
+        if (err) {
+          throw err
+        }
+        res.send(books)
+      })
+  } catch (error) {
+    next(error)
+  }
+})
 
 app.post('/', async (req, res, next) => {
   try {
