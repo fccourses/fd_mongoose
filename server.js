@@ -9,14 +9,16 @@ const emailValidationSchema = yup
   .required()
 
 const { Schema } = mongoose
+
 const dbName = process.env.MONGO_DB || 'fdMongoose'
+const hostName = '172.17.0.2'
 
 mongoose.connect(
-  `mongodb://localhost:27017/${dbName}`,
+  `mongodb://${hostName}:27017/${dbName}`,
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
     if (err) {
-      throw err
+      console.log(err)
       process.exit(1)
     }
   }
