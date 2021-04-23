@@ -11,7 +11,7 @@ const emailValidationSchema = yup
 const { Schema } = mongoose
 
 const dbName = process.env.MONGO_DB || 'fdMongoose'
-const hostName = '172.17.0.2'
+const hostName = 'fd_mongo'
 
 mongoose.connect(
   `mongodb://${hostName}:27017/${dbName}`,
@@ -98,6 +98,7 @@ app.post('/', async (req, res, next) => {
 
 app.get('/', async (req, res, next) => {
   try {
+    console.log('ok')
     const users = await User.find()
     res.send(users)
   } catch (err) {

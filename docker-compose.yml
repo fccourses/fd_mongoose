@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  backend-app:
+    build:
+      context: ./
+    ports:
+      - 3005:3000
+    volumes:  
+      - ./:/server:ro
+    depends_on: 
+      - fd_mongo
+
+  fd_mongo:
+    image: mongo
+    volumes: 
+      - /home/user/Documents/mongo_backup:/data/db
+
+
