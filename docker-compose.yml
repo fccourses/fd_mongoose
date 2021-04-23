@@ -3,6 +3,11 @@ services:
   backend-app:
     build:
       context: ./
+      dockerfile: ./Dockerfile
+    networks: 
+      - fd_mongoose-net
+    environment: 
+      PORT: 3000
     ports:
       - 3005:3000
     volumes:  
@@ -12,7 +17,12 @@ services:
 
   fd_mongo:
     image: mongo
+    restart: always
+    networks: 
+      - fd_mongoose-net
     volumes: 
       - /home/user/Documents/mongo_backup:/data/db
 
-
+networks: 
+  fd_mongoose-net:
+    name: fd_mongoose-net
